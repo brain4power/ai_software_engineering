@@ -1,4 +1,4 @@
-[![Python 3.10.6](https://img.shields.io/badge/python-3.10.6-blue.svg)](https://www.python.org/downloads/release/python-3106/)
+[![Python 3.10.8](https://img.shields.io/badge/python-3.10.8-blue.svg)](https://www.python.org/downloads/release/python-3108/)
 ![coverage](https://img.shields.io/badge/test_coverage-73%25-yellowgreen)
 ### Usage
 ```shell
@@ -16,7 +16,11 @@ Set necessary env variables:
 ```shell
 export APP_PROJECT_NAME='AI Software Engineering'
 ```
-Run tests
+Check flake8:
+```shell
+flake8 app/
+```
+Run tests:
 ```shell
 pytest
 ```
