@@ -16,7 +16,11 @@ Set necessary env variables:
 ```shell
 export APP_PROJECT_NAME='AI Software Engineering'
 ```
-Run tests
+Check flake8:
+```shell
+flake8 app/
+```
+Run tests:
 ```shell
 pytest
 ```
