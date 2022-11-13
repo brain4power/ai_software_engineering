@@ -11,8 +11,8 @@ from app.core.config import settings
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
-    title=settings.PROJECT_NAME,
-    version="0.2.1",
+    title=settings.APP_PROJECT_NAME,
+    version="0.3.0",
     openapi_url=f"{settings.API_STR}/openapi.json"
 )
 
