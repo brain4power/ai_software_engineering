@@ -9,7 +9,7 @@ from pydantic import AnyHttpUrl, BaseSettings, validator
 class Settings(BaseSettings):
     API_STR: str = "/api"
     SECRET_KEY: str = secrets.token_urlsafe(32)
-    PROJECT_NAME: str
+    APP_PROJECT_NAME: str
     # SERVER_HOST: AnyHttpUrl
     # BACKEND_CORS_ORIGINS is a JSON-formatted list of origins
     # e.g: '["http://localhost", "http://localhost:4200", "http://localhost:3000", \
