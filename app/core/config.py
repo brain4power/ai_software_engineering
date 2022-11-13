@@ -1,4 +1,6 @@
+import os
 import secrets
+from pathlib import Path
 from typing import List, Union
 
 from pydantic import AnyHttpUrl, BaseSettings, validator
@@ -22,6 +24,13 @@ class Settings(BaseSettings):
         elif isinstance(v, (list, str)):
             return v
         raise ValueError(v)
+
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    SYSTEM_STATIC_FOLDER = os.path.join(BASE_DIR, 'system-static/')
+
+    # speechbrain configs
+    SB_FOLDER = os.path.join(SYSTEM_STATIC_FOLDER, 'speechbrain/')
+    SB_PRETRAINED_MODELS_FOLDER = os.path.join(SB_FOLDER, 'pretrained_models/')
 
     class Config:
         case_sensitive = True

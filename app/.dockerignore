@@ -7,3 +7,6 @@ Dockerfile
 __pycache__
 .idea
 *.pyc
+
+system-static/speechbrain/
+!system-static/speechbrain/.geetkeep

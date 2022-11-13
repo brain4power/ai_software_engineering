@@ -6,3 +6,6 @@ docker-compose up -d
 ```
 ### Documentation: 
 http://0.0.0.0:9090/docs
+
+### Known bugs:
+- invalid symlink remains at app folder after file recognition
