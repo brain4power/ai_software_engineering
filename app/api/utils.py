@@ -10,7 +10,7 @@ __all__ = ["recognize_media_file"]
 
 
 async def recognize_media_file(file: UploadFile) -> str:
-    if file.content_type != "'audio/wav'":
+    if file.content_type != "audio/wav":
         raise HTTPException(status_code=400, detail="Only .wav file type supported")
     asr_model_save_dir = os.path.join(settings.SB_PRETRAINED_MODELS_FOLDER, "asr-wav2vec2-commonvoice-en")
     asr_model = EncoderDecoderASR.from_hparams(
