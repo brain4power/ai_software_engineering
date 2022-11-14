@@ -1,6 +1,8 @@
 import argparse
 import logging
 
+from sys import platform
+
 import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
@@ -55,7 +57,7 @@ if __name__ == "__main__":
     uvicorn.run(
         app,
         port=8000,
-        host="0.0.0.0",
+        host="127.0.0.1" if platform == "win32" else "0.0.0.0",
         log_level=options.log_level.lower(),
         workers=1,
         reload=options.reload,

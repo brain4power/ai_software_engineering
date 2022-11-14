@@ -1,5 +1,8 @@
 [![Python 3.10.8](https://img.shields.io/badge/python-3.10.8-blue.svg)](https://www.python.org/downloads/release/python-3108/)
 ![coverage](https://img.shields.io/badge/test_coverage-73%25-yellowgreen)
+
+![ScreenShot](img/sound_logo.png)
+
 ### Usage
 ```shell
 docker-compose up -d --build
