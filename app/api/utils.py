@@ -18,7 +18,7 @@ async def recognize_media_file(file: UploadFile) -> str:
         savedir=asr_model_save_dir,
         overrides={"wav2vec2": {"save_path": os.path.join(settings.SB_FOLDER, "model_checkpoints")}}
     )
-    with tempfile.NamedTemporaryFile("a+b") as media_file:
+    with tempfile.NamedTemporaryFile("a+b", delete=False) as media_file:
         file_data = await file.read()
         media_file.write(file_data)
         media_file.seek(0)

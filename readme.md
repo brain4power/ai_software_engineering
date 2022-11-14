@@ -1,3 +1,4 @@
+![result](https://github.com/ToyOwl/ai_software_engineering/blob/master/img/sound_logo.png)
 [![Python 3.10.8](https://img.shields.io/badge/python-3.10.8-blue.svg)](https://www.python.org/downloads/release/python-3108/)
 ![coverage](https://img.shields.io/badge/test_coverage-73%25-yellowgreen)
 ### Usage
