@@ -15,4 +15,4 @@ class RecognizeResponse(BaseModel):
 
 
 class EnhancementResponse(BaseModel):
-    playload: bytes
+    payload: str

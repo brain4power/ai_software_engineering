@@ -1,6 +1,7 @@
-from fastapi import APIRouter, UploadFile
+from fastapi import APIRouter
+from fastapi import UploadFile
 
-from app.api.utils import recognize_media_file
+from app.api.utils import speech2text
 from app.schemas import RecognizeResponse
 
 router = APIRouter()
@@ -10,7 +11,6 @@ router = APIRouter()
     "/",
     response_model=RecognizeResponse,
 )
-async def recognize(file: UploadFile):
-    result_text = await recognize_media_file(file=file)
-    result = RecognizeResponse(text=result_text)
-    return result
+async def get_recognition(file: UploadFile):
+    result_text = await speech2text(file)
+    return RecognizeResponse(text=result_text)
