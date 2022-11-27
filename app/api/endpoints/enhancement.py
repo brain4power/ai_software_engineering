@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 @router.post(
-    "/enhancement",
+    "/",
     response_model=EnhancementResponse,
 )
 async def get_enhancement(file: UploadFile):
