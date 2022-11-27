@@ -18,6 +18,7 @@ def prepare_tensor(file: bytes) -> (torch.Tensor, torch.Tensor):
     source = torch.FloatTensor(source)
     return source.unsqueeze(0), torch.tensor([1.0])
 
+
 def speech2text(file: bytes):
     batch, rel_length = prepare_tensor(file)
     asr_model_save_dir = os.path.join(settings.SB_PRETRAINED_MODELS_FOLDER, "asr-wav2vec2-commonvoice-en")
@@ -29,6 +30,7 @@ def speech2text(file: bytes):
     result = asr_model.transcribe_batch(batch, rel_length)
     result_text = ' '.join(token for token in result[0])
     return result_text
+
 
 def speech_enhancement(file: bytes):
     batch, rel_length = prepare_tensor(file)

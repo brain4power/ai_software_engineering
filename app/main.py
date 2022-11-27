@@ -24,19 +24,21 @@ app = FastAPI(
 
 
 @app.post("/recognition", response_model=RecognizeResponse)
-def get_segmentation_map(file: bytes = File(...)):
+def get_recognition(file: bytes = File(...)):
     result_text = speech2text(file)
     return {'text': result_text}
 
 
 @app.post("/enhancement", response_model=EnhancementResponse)
-def get_segmentation_map(file: bytes = File(...)):
+def get_enhancement(file: bytes = File(...)):
     data = speech_enhancement(file)
     return {'playload': data}
+
 
 @app.get("/")
 async def root():
     return
+
 
 # Set all CORS enabled origins
 if settings.BACKEND_CORS_ORIGINS:
@@ -82,7 +84,4 @@ if __name__ == "__main__":
         workers=1,
         reload=options.reload,
     )
-
-
-
 
