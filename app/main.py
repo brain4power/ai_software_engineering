@@ -4,11 +4,15 @@ import logging
 from sys import platform
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, File
 from starlette.middleware.cors import CORSMiddleware
 
 from app.api.router import api_router
 from app.core.config import settings
+from app.api.spech_processing import speech2text, speech_enhancement
+
+from schemas import RecognizeResponse, EnhancementResponse
+
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +21,22 @@ app = FastAPI(
     version="0.3.0",
     openapi_url=f"{settings.API_STR}/openapi.json"
 )
+
+
+@app.post("/recognition", response_model=RecognizeResponse)
+def get_segmentation_map(file: bytes = File(...)):
+    result_text = speech2text(file)
+    return {'text': result_text}
+
+
+@app.post("/enhancement", response_model=EnhancementResponse)
+def get_segmentation_map(file: bytes = File(...)):
+    data = speech_enhancement(file)
+    return {'playload': data}
+
+@app.get("/")
+async def root():
+    return
 
 # Set all CORS enabled origins
 if settings.BACKEND_CORS_ORIGINS:
@@ -56,9 +76,13 @@ if __name__ == "__main__":
     # run worker
     uvicorn.run(
         app,
-        port=8000,
+        port=5049,
         host="127.0.0.1" if platform == "win32" else "0.0.0.0",
         log_level=options.log_level.lower(),
         workers=1,
         reload=options.reload,
     )
+
+
+
+
