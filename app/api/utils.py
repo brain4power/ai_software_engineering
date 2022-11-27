@@ -34,7 +34,7 @@ async def handle_uploaded_audio_file(file: UploadFile):
     fp_arr /= np.iinfo(samples[0].typecode).max
     source = fp_arr[:, 0]
     sample_rate = audio.frame_rate
-    source = resampy.resample(source, sample_rate, settings.AUDIO_RATE, axis=0, filter='kaiser_best')
+    source = resampy.resample(source, sample_rate, settings.AUDIO_RATE, axis=0, filter="kaiser_best")
     source = torch.FloatTensor(source)
 
     batch = source.unsqueeze(0)
