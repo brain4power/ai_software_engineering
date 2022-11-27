@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 __all__ = [
-    "PingResponse", "RecognizeResponse",
+    "PingResponse", "RecognizeResponse", "EnhancementResponse"
 ]
 
 

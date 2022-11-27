@@ -11,7 +11,7 @@ from app.api.router import api_router
 from app.core.config import settings
 from app.api.spech_processing import speech2text, speech_enhancement
 
-from schemas import RecognizeResponse, EnhancementResponse
+from app.schemas import RecognizeResponse, EnhancementResponse
 
 
 logger = logging.getLogger(__name__)
