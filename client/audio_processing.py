@@ -89,7 +89,7 @@ class AbstractOption:
         fp_arr /= np.iinfo(samples[0].typecode).max
         source, sample_rate = fp_arr[:, 0], audio.frame_rate
         source = resampy.resample(source, sample_rate, SAMPLE_RATE, axis=0, filter="kaiser_best")
-        return source, sample_rate
+        return source, SAMPLE_RATE
 
     @staticmethod
     def draw_audio_player(source, sample_rate):
