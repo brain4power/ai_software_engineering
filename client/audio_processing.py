@@ -19,8 +19,8 @@ MAX_FILE_LEN = 1 * 1024 * 1024  # 1 MB
 
 plt.rcParams["figure.figsize"] = (12, 10)
 
-endpoint_enhancement = os.getenv('API_ENHANCEMENT_URI')
-endpoint_recognition = os.getenv('API_RECOGNITION_URI')
+endpoint_enhancement = os.getenv("API_ENHANCEMENT_URI")
+endpoint_recognition = os.getenv("API_RECOGNITION_URI")
 
 
 class AbstractOption:
@@ -88,7 +88,7 @@ class AbstractOption:
         fp_arr = np.array(samples).T.astype(np.float32)
         fp_arr /= np.iinfo(samples[0].typecode).max
         source, sample_rate = fp_arr[:, 0], audio.frame_rate
-        source = resampy.resample(source, sample_rate, SAMPLE_RATE, axis=0, filter='kaiser_best')
+        source = resampy.resample(source, sample_rate, SAMPLE_RATE, axis=0, filter="kaiser_best")
         return source, sample_rate
 
     @staticmethod
@@ -110,7 +110,7 @@ class AbstractOption:
 
 
 class SpeechRecognition(AbstractOption):
-    name = 'Speech Recognition'
+    name = "Speech Recognition"
 
     def handle(self, *args, **kwargs):
         # start recognition via api
@@ -124,11 +124,11 @@ class SpeechRecognition(AbstractOption):
         self.draw_audio_player(source, sample_rate)
         st.markdown("---")
         # show recognition result
-        st.write(api_result['text'])
+        st.write(api_result["text"])
 
 
 class SpeechEnhancement(AbstractOption):
-    name = 'Speech Enhancement'
+    name = "Speech Enhancement"
 
     def handle(self, *args, **kwargs):
         col1, col2 = st.columns([1, 1])
@@ -149,8 +149,8 @@ class SpeechEnhancement(AbstractOption):
 
         # Speech Enhancement via api
         api_result = self.call_api(endpoint_enhancement)
-        result = api_result['payload']
-        result = result.encode(encoding='UTF-8')
+        result = api_result["payload"]
+        result = result.encode(encoding="UTF-8")
         buff = base64.decodebytes(result)
         sound = np.frombuffer(buff, dtype=np.float32)
 
