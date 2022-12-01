@@ -8,8 +8,23 @@ services:
     restart: unless-stopped
     environment:
       APP_PROJECT_NAME: ${APP_PROJECT_NAME}
+    volumes:
+      - ./app/system-static/speechbrain:/code/app/system-static/speechbrain
     ports:
       - "9090:80"
+    networks:
+      - aise
+
+  client:
+    container_name: aise_client
+    build: ./client
+    command: sh -c "/code/client/run_client.sh"
+    restart: unless-stopped
+    environment:
+      API_RECOGNITION_URI: "http://app/api/recognize/"
+      API_ENHANCEMENT_URI: "http://app/api/enhancement/"
+    ports:
+      - "8000:8501"
     networks:
       - aise
 
