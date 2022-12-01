@@ -1,5 +1,5 @@
 [![Python 3.10.8](https://img.shields.io/badge/python-3.10.8-blue.svg)](https://www.python.org/downloads/release/python-3108/)
-![coverage](https://img.shields.io/badge/test_coverage-73%25-yellowgreen)
+![app coverage](https://img.shields.io/badge/app_test_coverage-43%25-yellowgreen)
 
 ![ScreenShot](img/sound_logo.png)
 
@@ -7,7 +7,10 @@
 ```shell
 docker-compose up -d --build
 ```
-### Documentation: 
+### Frontend 
+via [streamlit](https://github.com/streamlit) starts on http://0.0.0.0:8000
+
+### Backend API Documentation: 
 http://0.0.0.0:9090/docs
 
 ### Development
@@ -31,6 +34,3 @@ Check tests coverage:
 ```shell
 pytest --cov app
 ```
-
-### Known bugs:
-- invalid symlink remains at app folder after file recognition
