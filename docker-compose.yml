@@ -8,6 +8,7 @@ services:
     restart: unless-stopped
     environment:
       APP_PROJECT_NAME: ${APP_PROJECT_NAME}
+      AUDIO_RATE: ${AUDIO_RATE}
     volumes:
       - ./app/system-static/speechbrain:/code/app/system-static/speechbrain
     ports:
@@ -23,6 +24,7 @@ services:
     environment:
       API_RECOGNITION_URI: "http://app/api/recognize/"
       API_ENHANCEMENT_URI: "http://app/api/enhancement/"
+      AUDIO_RATE: ${AUDIO_RATE}
     ports:
       - "8000:8501"
     networks:

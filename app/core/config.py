@@ -31,7 +31,7 @@ class Settings(BaseSettings):
     # speechbrain configs
     SB_FOLDER = os.path.join(SYSTEM_STATIC_FOLDER, 'speechbrain/')
     SB_PRETRAINED_MODELS_FOLDER = os.path.join(SB_FOLDER, 'pretrained_models/')
-    AUDIO_RATE = 16000
+    AUDIO_RATE: int
 
     class Config:
         case_sensitive = True

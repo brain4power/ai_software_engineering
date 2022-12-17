@@ -14,11 +14,11 @@ import streamlit as st
 from matplotlib import pyplot as plt
 from scipy.io import wavfile
 
-SAMPLE_RATE = 16000
 MAX_FILE_LEN = 1 * 1024 * 1024  # 1 MB
 
 plt.rcParams["figure.figsize"] = (12, 10)
 
+SAMPLE_RATE = int(os.getenv("AUDIO_RATE"))
 endpoint_enhancement = os.getenv("API_ENHANCEMENT_URI")
 endpoint_recognition = os.getenv("API_RECOGNITION_URI")
 

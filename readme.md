@@ -21,6 +21,7 @@ pip install -r app/requirements-dev.txt
 Set necessary env variables:
 ```shell
 export APP_PROJECT_NAME='AI Software Engineering'
+export AUDIO_RATE=16000
 ```
 Check flake8:
 ```shell
