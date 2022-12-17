@@ -29,7 +29,6 @@ class Settings(BaseSettings):
 
     MAX_FILE_SIZE: str
 
-    @classmethod
     @validator("MAX_FILE_SIZE")
     def max_file_size_transform_and_mul_int(cls, value: str) -> int:
         return reduce(operator.mul, map(int, value.split('*')))

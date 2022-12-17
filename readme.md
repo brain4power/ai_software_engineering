@@ -22,6 +22,7 @@ Set necessary env variables:
 ```shell
 export APP_PROJECT_NAME='AI Software Engineering'
 export AUDIO_RATE=16000
+export MAX_FILE_SIZE=1*1024*1024
 ```
 Check flake8:
 ```shell
