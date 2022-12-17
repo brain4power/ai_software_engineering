@@ -44,13 +44,19 @@ class APIRouter(FastAPIRouter):
 
 
 async def handle_uploaded_audio_file(file: UploadFile):
+    # validation
     if file.content_type == "audio/wav":
         handler = pydub.AudioSegment.from_wav
     elif file.content_type == "audio/mpeg":
         handler = pydub.AudioSegment.from_mp3
     else:
         raise HTTPException(status_code=400, detail="Only .wav or .mp3 file types are supported")
-    load_bytes = io.BytesIO(await file.read())
+    file_data = await file.read()
+    if len(file_data) > settings.MAX_FILE_SIZE:
+        raise HTTPException(status_code=400, detail=f"Max file len: {settings.MAX_FILE_SIZE}")
+
+    # transform data
+    load_bytes = io.BytesIO(file_data)
     audio = handler(load_bytes)
 
     channel_sounds = audio.split_to_mono()

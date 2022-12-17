@@ -1,5 +1,7 @@
+import operator
 import os
 import secrets
+from functools import reduce
 from pathlib import Path
 from typing import List, Union
 
@@ -24,6 +26,14 @@ class Settings(BaseSettings):
         elif isinstance(v, (list, str)):
             return v
         raise ValueError(v)
+
+    MAX_FILE_SIZE: str
+
+    # @classmethod
+    @validator("MAX_FILE_SIZE")
+    def max_file_size_transform_and_mul_int(cls, value: str) -> int:
+        print(f'!!!VALUE: {value}')
+        return reduce(operator.mul, map(int, value.split('*')))
 
     BASE_DIR = Path(__file__).resolve().parent.parent
     SYSTEM_STATIC_FOLDER = os.path.join(BASE_DIR, 'system-static/')
