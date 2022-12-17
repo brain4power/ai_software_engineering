@@ -14,7 +14,8 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title=settings.APP_PROJECT_NAME,
     version="0.4.0",
-    openapi_url=f"{settings.API_STR}/openapi.json"
+    openapi_url=f"{settings.API_STR}/openapi.json",
+    docs_url="/docs/",
 )
 
 # Set all CORS enabled origins

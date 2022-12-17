@@ -1,6 +1,6 @@
-from fastapi import APIRouter, UploadFile
+from fastapi import UploadFile
 
-from app.api.utils import speech_enhancement
+from app.api.utils import speech_enhancement, APIRouter
 from app.schemas import EnhancementResponse
 
 router = APIRouter()

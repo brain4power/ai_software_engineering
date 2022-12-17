@@ -1,1 +1,1 @@
-streamlit run /code/client/audio_processing.py
+streamlit run /code/client/audio_processing.py --server.port=8501 --server.address=0.0.0.0 --server.enableCORS false

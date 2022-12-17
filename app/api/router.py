@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from app.api.utils import APIRouter
 
 from app.api.endpoints import ping, recognize, enhancement
 

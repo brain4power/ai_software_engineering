@@ -1,5 +1,4 @@
-from fastapi import APIRouter
-
+from app.api.utils import APIRouter
 from app.schemas import PingResponse
 
 router = APIRouter()

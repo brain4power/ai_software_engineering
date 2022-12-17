@@ -1,1 +1,1 @@
-uvicorn app.main:app --host 0.0.0.0 --port 80 --proxy-headers
+uvicorn app.main:app --host 0.0.0.0 --port 9000 --proxy-headers

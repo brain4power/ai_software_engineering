@@ -1,7 +1,6 @@
-from fastapi import APIRouter
 from fastapi import UploadFile
 
-from app.api.utils import speech2text
+from app.api.utils import speech2text, APIRouter
 from app.schemas import RecognizeResponse
 
 router = APIRouter()

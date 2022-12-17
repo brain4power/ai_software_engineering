@@ -1,8 +1,8 @@
 version: '3.7'
 
 services:
-  app:
-    container_name: aise_app
+  aise-api:
+    container_name: aise-api
     build: ./app
     command: sh -c "/code/app/scripts/run_app.sh"
     restart: unless-stopped
@@ -11,13 +11,9 @@ services:
       AUDIO_RATE: ${AUDIO_RATE}
     volumes:
       - ./app/system-static/speechbrain:/code/app/system-static/speechbrain
-    ports:
-      - "9090:80"
-    networks:
-      - aise
 
-  client:
-    container_name: aise_client
+  aise-client:
+    container_name: aise-client
     build: ./client
     command: sh -c "/code/client/run_client.sh"
     restart: unless-stopped
@@ -25,11 +21,20 @@ services:
       API_RECOGNITION_URI: "http://app/api/recognize/"
       API_ENHANCEMENT_URI: "http://app/api/enhancement/"
       AUDIO_RATE: ${AUDIO_RATE}
+
+  aise-nginx:
+    image: nginx:1.23.2
+    container_name: aise-nginx
+    restart: unless-stopped
+    volumes:
+      - ./configs/${STAND_CONFIG_FOLDER}/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./configs/${STAND_CONFIG_FOLDER}/nginx/conf.d/:/etc/nginx/conf.d/
     ports:
-      - "8000:8501"
-    networks:
-      - aise
+      - "80:80"
+    depends_on:
+      - aise-api
+      - aise-client
 
 networks:
-  aise:
+  default:
     driver: bridge
