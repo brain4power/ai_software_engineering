@@ -3,15 +3,21 @@
 
 ![ScreenShot](img/sound_logo.png)
 
+### Description
+The application processes sound files. Two functions: recognition and enhancement.
+The application consists of backend and frontend parts.
+#### Frontend
+Based on [Streamlit](https://github.com/streamlit/streamlit)
+#### Backend
+Based on [Fastapi](https://github.com/tiangolo/fastapi)
 ### Usage
 ```shell
 docker-compose up -d --build
 ```
-### Frontend 
-via [streamlit](https://github.com/streamlit) starts on http://0.0.0.0:8000
+nginx starts on 80 port
 
 ### Backend API Documentation: 
-http://0.0.0.0:9090/docs
+http://0.0.0.0:80/docs/
 
 ### Development
 Install dev environment:
