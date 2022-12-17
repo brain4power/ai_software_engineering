@@ -29,10 +29,9 @@ class Settings(BaseSettings):
 
     MAX_FILE_SIZE: str
 
-    # @classmethod
+    @classmethod
     @validator("MAX_FILE_SIZE")
     def max_file_size_transform_and_mul_int(cls, value: str) -> int:
-        print(f'!!!VALUE: {value}')
         return reduce(operator.mul, map(int, value.split('*')))
 
     BASE_DIR = Path(__file__).resolve().parent.parent
