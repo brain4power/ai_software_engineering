@@ -22,4 +22,5 @@ jobs:
       - name: Test with pytest
         env:
           APP_PROJECT_NAME: 'AI Software Engineering'
+          AUDIO_RATE: 16000
         run: pytest
