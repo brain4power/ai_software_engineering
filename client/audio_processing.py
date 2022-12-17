@@ -76,7 +76,6 @@ class AbstractOption:
         if file_mime_type is None:
             file_mime_type = self.file_mime_type
 
-        # TODO fix: result audio is too fast
         buffer = io.BytesIO()
         buffer.write(file_bytes)
         buffer.seek(0)
