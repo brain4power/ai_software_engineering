@@ -23,4 +23,5 @@ jobs:
         env:
           APP_PROJECT_NAME: 'AI Software Engineering'
           AUDIO_RATE: 16000
+          MAX_FILE_SIZE: 1*1024*1024
         run: pytest
