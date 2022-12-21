@@ -9,6 +9,7 @@ services:
     environment:
       APP_PROJECT_NAME: ${APP_PROJECT_NAME}
       AUDIO_RATE: ${AUDIO_RATE}
+      MAX_FILE_SIZE: ${MAX_FILE_SIZE}
     volumes:
       - ./app/system-static/speechbrain:/code/app/system-static/speechbrain
 
@@ -21,6 +22,7 @@ services:
       API_RECOGNITION_URI: "http://app/api/recognize/"
       API_ENHANCEMENT_URI: "http://app/api/enhancement/"
       AUDIO_RATE: ${AUDIO_RATE}
+      MAX_FILE_SIZE: ${MAX_FILE_SIZE}
 
   aise-nginx:
     image: nginx:1.23.2
