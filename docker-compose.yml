@@ -19,8 +19,8 @@ services:
     command: sh -c "/code/client/run_client.sh"
     restart: unless-stopped
     environment:
-      API_RECOGNITION_URI: "http://app/api/recognize/"
-      API_ENHANCEMENT_URI: "http://app/api/enhancement/"
+      API_RECOGNITION_URI: "http://aise-api/api/recognize/"
+      API_ENHANCEMENT_URI: "http://aise-api/api/enhancement/"
       AUDIO_RATE: ${AUDIO_RATE}
       MAX_FILE_SIZE: ${MAX_FILE_SIZE}
 
