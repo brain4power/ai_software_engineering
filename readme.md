@@ -66,3 +66,10 @@ systemctl daemon-reload
 systemctl enable aise.service
 systemctl start aise.service
 ```
+#### Update server
+```shell
+sudo su
+cd /opt/aise
+git pull
+docker compose up -d --build
+```
