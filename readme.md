@@ -61,7 +61,7 @@ docker compose up -d --build
 ```
 - enable the application to run on system boot
 ```shell
-cp aise.service /etc/systemd/system/aise.service
+cp configs/prod/aise.service /etc/systemd/system/aise.service
 systemctl daemon-reload
 systemctl enable aise.service
 systemctl start aise.service
