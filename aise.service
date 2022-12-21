@@ -1,0 +1,24 @@
+[Unit]
+Description=aise service with docker-compose.
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=simple
+Restart=always
+TimeoutSec=300
+
+WorkingDirectory=/opt/aise
+
+# Compose up
+ExecStart=/usr/local/bin/docker-compose -f docker-compose.yml up
+
+# Compose down, remove containers
+ExecStop=/usr/local/bin/docker-compose -f docker-compose.yml down
+
+# Compose restart
+ExecReload=/usr/local/bin/docker-compose -f docker-compose.yml restart
+
+
+[Install]
+WantedBy=multi-user.target

@@ -12,7 +12,7 @@ Based on [Streamlit](https://github.com/streamlit/streamlit)
 Based on [Fastapi](https://github.com/tiangolo/fastapi)
 ### Usage
 ```shell
-docker-compose up -d --build
+docker compose up -d --build
 ```
 nginx starts on 80 port
 
@@ -23,6 +23,7 @@ http://0.0.0.0:80/docs/
 Install dev environment:
 ```shell
 pip install -r app/requirements-dev.txt
+pip install -r client/requirements.txt
 ```
 Set necessary env variables:
 ```shell
@@ -41,4 +42,27 @@ pytest
 Check tests coverage:
 ```shell
 pytest --cov app
+```
+
+### Deploy
+```shell
+sudo su
+```
+- [Install docker](https://docs.docker.com/engine/install/ubuntu/)
+- [Configure Docker to start on boot with systemd](https://docs.docker.com/engine/install/linux-postinstall/#configure-docker-to-start-on-boot-with-systemd)
+- Clone repo:
+```shell
+sudo git clone https://github.com/brain4power/ai_software_engineering.git /opt/aise
+```
+- build containers and start application
+```shell
+cd /opt/aise
+docker compose up -d --build
+```
+- enable the application to run on system boot
+```shell
+cp aise.service /etc/systemd/system/aise.service
+systemctl daemon-reload
+systemctl enable aise.service
+systemctl start aise.service
 ```
