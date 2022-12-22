@@ -11,13 +11,13 @@ TimeoutSec=300
 WorkingDirectory=/opt/aise
 
 # Compose up
-ExecStart=/usr/local/bin/docker-compose -f docker-compose.yml up
+ExecStart=docker compose -f docker-compose.yml up
 
 # Compose down, remove containers
-ExecStop=/usr/local/bin/docker-compose -f docker-compose.yml down
+ExecStop=docker compose -f docker-compose.yml down
 
 # Compose restart
-ExecReload=/usr/local/bin/docker-compose -f docker-compose.yml restart
+ExecReload=docker compose -f docker-compose.yml restart
 
 
 [Install]
