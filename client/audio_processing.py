@@ -40,10 +40,10 @@ class AbstractOption:
 
     @property
     def name(self):
-        raise NotImplemented
+        raise NotImplementedError
 
     def handle(self, *args, **kwargs):
-        raise NotImplemented
+        raise NotImplementedError
 
     def parse_file_uploader(self, file_uploader):
         file_bytes = file_uploader.read()
@@ -116,7 +116,7 @@ class SpeechRecognition(AbstractOption):
         api_result = self.call_api(endpoint_recognition)
 
         st.markdown(
-            f"<h4 style='text-align: center; color: black;'>Audio</h5>",
+            "<h4 style='text-align: center; color: black;'>Audio</h5>",
             unsafe_allow_html=True, )
         # draw audio player
         source, sample_rate = self.convert_audio_bytes()
@@ -133,14 +133,14 @@ class SpeechEnhancement(AbstractOption):
         col1, col2 = st.columns([1, 1])
         with col1:
             st.markdown(
-                f"<h4 style='text-align: center; color: black;'>Original</h5>",
+                "<h4 style='text-align: center; color: black;'>Original</h5>",
                 unsafe_allow_html=True,
             )
             source, sample_rate = self.convert_audio_bytes()
             self.draw_audio_player(source, sample_rate)
         with col2:
             st.markdown(
-                f"<h4 style='text-align: center; color: black;'>Wave plot </h5>",
+                "<h4 style='text-align: center; color: black;'>Wave plot </h5>",
                 unsafe_allow_html=True,
             )
             st.pyplot(self.plot_wave(source, sample_rate))
@@ -156,13 +156,13 @@ class SpeechEnhancement(AbstractOption):
         col1, col2 = st.columns([1, 1])
         with col1:
             st.markdown(
-                f"<h4 style='text-align: center; color: black;'>Enhancement</h5>",
+                "<h4 style='text-align: center; color: black;'>Enhancement</h5>",
                 unsafe_allow_html=True,
             )
             self.draw_audio_player(sound, sample_rate)
         with col2:
             st.markdown(
-                f"<h4 style='text-align: center; color: black;'>Wave plot </h5>",
+                "<h4 style='text-align: center; color: black;'>Wave plot </h5>",
                 unsafe_allow_html=True,
             )
             st.pyplot(self.plot_wave(sound, sample_rate))
@@ -195,7 +195,7 @@ def main():
     if st.sidebar.button("Apply"):
         if file_uploader is None:
             st.markdown(
-                f"<h4 style='text-align: center; color: black;'>Audio file required</h5>",
+                "<h4 style='text-align: center; color: black;'>Audio file required</h5>",
                 unsafe_allow_html=True, )
         else:
             placeholder.empty()
