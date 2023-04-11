@@ -13,4 +13,3 @@ python-multipart==0.0.5
 soundfile==0.11.0
 transformers==4.24.0  # required for wav2vec2 / Hubert (speechbrain)
 pydub==0.25.1
-resampy==0.4.2
