@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 __all__ = [
-    "PingResponse", "RecognizeResponse", "EnhancementResponse"
+    "PingResponse", "RecognizeResponse", "EnhancementResponse", "SeparateResponse"
 ]
 
 
@@ -16,3 +16,8 @@ class RecognizeResponse(BaseModel):
 
 class EnhancementResponse(BaseModel):
     payload: str
+
+
+class SeparateResponse(BaseModel):
+    source: str
+    content: str
