@@ -1,7 +1,7 @@
 import base64
 import io
 import os
-from typing import Any, Callable, List
+from typing import Any, Callable
 
 import numpy as np
 import pydub
@@ -13,14 +13,12 @@ from speechbrain.pretrained import EncoderDecoderASR, SpectralMaskEnhancement
 from speechbrain.pretrained import SepformerSeparation
 
 from app.core.config import settings
-#from app.schemas import FileOutput
 
 __all__ = [
-    "APIRouter", "speech2text", "speech_enhancement", "separate_audio_files",
+    "APIRouter", "speech2text", "speech_enhancement", "separate_audio_files"
 ]
 
-
-SEPFORMER_WHAMR_RATE =8000
+SEPFORMER_WHAMR_RATE = 8000
 
 
 class APIRouter(FastAPIRouter):
@@ -98,7 +96,7 @@ async def separate_audio_files(file: UploadFile = File(...)):
     sources = sources.cpu().detach().numpy()
     output_files = []
     for i in range(sources.shape[2]):
-        source = sources[:,:,i]
+        source = sources[:, :, i]
         output_filename = f"source_{i + 1}"
         output_files.append((output_filename, base64.b64encode(source.tobytes())))
     return output_files
