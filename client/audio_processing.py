@@ -19,8 +19,13 @@ MAX_FILE_LEN = 1 * 1024 * 1024  # 1 MB
 plt.rcParams["figure.figsize"] = (12, 10)
 
 SAMPLE_RATE = int(os.getenv("AUDIO_RATE"))
+SAMPLE_RATE_SEPARATE = 8000
+
 endpoint_enhancement = os.getenv("API_ENHANCEMENT_URI")
 endpoint_recognition = os.getenv("API_RECOGNITION_URI")
+endpoint_separation = os.getenv("API_SEPARATION_URI")
+
+
 
 
 class AbstractOption:
@@ -30,6 +35,7 @@ class AbstractOption:
     mime_type_audio_command_map = {
         "audio/mpeg": "from_mp3",
         "audio/wav": "from_wav",
+        "audio/x-wav": "from_wav"
     }
 
     def __init__(self, file_uploader):
@@ -51,6 +57,7 @@ class AbstractOption:
         # determine mime-type
         mime_type = magic.Magic(mime=True).from_buffer(file_bytes)
         mime_type = mime_type.lower()
+        print(mime_type)
         self.file_mime_type = mime_type
         self.file_name = file_uploader.name
 
@@ -112,7 +119,7 @@ class SpeechRecognition(AbstractOption):
     name = "Speech Recognition"
 
     def handle(self, *args, **kwargs):
-        # start recognition via api
+
         api_result = self.call_api(endpoint_recognition)
 
         st.markdown(
@@ -125,49 +132,107 @@ class SpeechRecognition(AbstractOption):
         # show recognition result
         st.write(api_result["text"])
 
+class SpeechSeparation(AbstractOption):
+    name = "Speech Separation"
+
+    def separate_audio(self, file):
+        response = requests.post("http://127.0.0.5:8000/api/separate",
+                                 files={"file": (self.file_name, self.file_bytes, self.file_mime_type)})
+        if response.status_code == 200:
+            sources = response.json()
+            return sources
+        else:
+            st.error("Error processing audio file.")
+            return None
+
+    def handle(self, *args, **kwargs):
+        # start recognition via api
+        api_result = self.call_api(endpoint_separation)
+        if api_result is not None:
+            for i, source in enumerate(api_result):
+                result = source["content"]
+                result = result.encode(encoding="UTF-8")
+                buff = base64.decodebytes(result)
+                sound = np.frombuffer(buff, dtype=np.float32)
+                in_memory_file = io.BytesIO()
+                wavfile.write(in_memory_file, rate=SAMPLE_RATE_SEPARATE, data=sound)
+                st.write(source["source"])
+                st.audio(in_memory_file)
+                st.markdown("---")
 
 class SpeechEnhancement(AbstractOption):
     name = "Speech Enhancement"
 
     def handle(self, *args, **kwargs):
-        col1, col2 = st.columns([1, 1])
+        col1, col2, col3 = st.columns([1, 1, 1])
+
         with col1:
             st.markdown(
-                "<h4 style='text-align: center; color: black;'>Original</h5>",
+                f"<h4 style='text-align: center; color: black;'>Original Waveform</h5>",
                 unsafe_allow_html=True,
             )
             source, sample_rate = self.convert_audio_bytes()
             self.draw_audio_player(source, sample_rate)
+
         with col2:
             st.markdown(
-                "<h4 style='text-align: center; color: black;'>Wave plot </h5>",
+                f"<h4 style='text-align: center; color: black;'>Original Spectrogram</h5>",
+                unsafe_allow_html=True,
+            )
+            fig, ax = plt.subplots()
+            spectrogram = librosa.amplitude_to_db(np.abs(librosa.stft(source)), ref=np.max)
+            plt.imshow(spectrogram, origin='lower', aspect='auto',
+                           cmap='viridis', extent=[0, len(source) / sample_rate, 0, sample_rate / 2])
+            plt.colorbar(format='%+2.0f dB')
+            plt.xlabel('Time (s)')
+            plt.ylabel('Frequency (Hz)')
+            plt.tight_layout()
+            st.pyplot(fig)
+
+        with col3:
+            st.markdown(
+                f"<h4 style='text-align: center; color: black;'>Original Wave Plot</h5>",
                 unsafe_allow_html=True,
             )
             st.pyplot(self.plot_wave(source, sample_rate))
             self.add_h_space()
 
-        # Speech Enhancement via api
-        api_result = self.call_api(endpoint_enhancement)
-        result = api_result["payload"]
-        result = result.encode(encoding="UTF-8")
-        buff = base64.decodebytes(result)
-        sound = np.frombuffer(buff, dtype=np.float32)
-
-        col1, col2 = st.columns([1, 1])
+        col1, col2, col3 = st.columns([1, 1, 1])
         with col1:
             st.markdown(
-                "<h4 style='text-align: center; color: black;'>Enhancement</h5>",
+                f"<h4 style='text-align: center; color: black;'>Enhanced Waveform</h5>",
                 unsafe_allow_html=True,
             )
-            self.draw_audio_player(sound, sample_rate)
+            # Speech Enhancement via api
+            api_result = self.call_api(endpoint_enhancement)
+            result = api_result["payload"]
+            result = result.encode(encoding="UTF-8")
+            buff = base64.decodebytes(result)
+            enhanced_sound = np.frombuffer(buff, dtype=np.float32)
+            self.draw_audio_player(enhanced_sound, sample_rate)
+
         with col2:
             st.markdown(
-                "<h4 style='text-align: center; color: black;'>Wave plot </h5>",
+                f"<h4 style='text-align: center; color: black;'>Enhanced Spectrogram</h5>",
                 unsafe_allow_html=True,
             )
-            st.pyplot(self.plot_wave(sound, sample_rate))
-            self.add_h_space()
+            fig, ax = plt.subplots()
+            enhanced_spectrogram = librosa.amplitude_to_db(np.abs(librosa.stft(enhanced_sound)), ref=np.max)
+            plt.imshow(enhanced_spectrogram, origin='lower', aspect='auto',
+                                 cmap='viridis', extent=[0, len(source) / sample_rate, 0, sample_rate / 2])
+            plt.colorbar(format='%+2.0f dB')
+            plt.xlabel('Time (s)')
+            plt.ylabel('Frequency (Hz)')
+            plt.tight_layout()
+            st.pyplot(fig)
 
+        with col3:
+            st.markdown(
+                f"<h4 style='text-align: center; color: black;'>Enhanced Wave Plot</h5>",
+                unsafe_allow_html=True,
+            )
+            st.pyplot(self.plot_wave(source, sample_rate))
+            self.add_h_space()
 
 def main():
     placeholder = st.empty()
@@ -184,6 +249,7 @@ def main():
     options_map = {
         SpeechRecognition.name: SpeechRecognition,
         SpeechEnhancement.name: SpeechEnhancement,
+        SpeechSeparation.name:  SpeechSeparation,
     }
     option = st.sidebar.selectbox('Audio Processing Task', options=options_map)
     st.sidebar.markdown("---")

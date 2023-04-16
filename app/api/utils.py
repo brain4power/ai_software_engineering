@@ -1,22 +1,26 @@
 import base64
 import io
 import os
-from typing import Any, Callable
+from typing import Any, Callable, List
 
 import numpy as np
 import pydub
 import torch
 from fastapi import APIRouter as FastAPIRouter
-from fastapi import UploadFile, HTTPException
+from fastapi import File, UploadFile, HTTPException
 from fastapi.types import DecoratedCallable
 from speechbrain.pretrained import EncoderDecoderASR, SpectralMaskEnhancement
+from speechbrain.pretrained import SepformerSeparation
 
 from app.core.config import settings
-
+#from app.schemas import FileOutput
 
 __all__ = [
-    "APIRouter", "speech2text", "speech_enhancement",
+    "APIRouter", "speech2text", "speech_enhancement", "separate_audio_files",
 ]
+
+
+SEPFORMER_WHAMR_RATE =8000
 
 
 class APIRouter(FastAPIRouter):
@@ -42,9 +46,9 @@ class APIRouter(FastAPIRouter):
         return decorator
 
 
-async def handle_uploaded_audio_file(file: UploadFile):
+async def handle_uploaded_audio_file(file: UploadFile, sample_rate=settings.AUDIO_RATE):
     # validation
-    VALID_AUDIO_TYPES = {"audio/wav", "audio/mpeg"}
+    VALID_AUDIO_TYPES = {"audio/wav", "audio/mpeg", "audio/x-wav"}
     if file.content_type not in VALID_AUDIO_TYPES:
         raise HTTPException(status_code=400, detail=f"Only {', '.join(VALID_AUDIO_TYPES)} file types are supported")
     file_data = await file.read()
@@ -53,7 +57,7 @@ async def handle_uploaded_audio_file(file: UploadFile):
 
     # transform data
     handler = pydub.AudioSegment.from_file(io.BytesIO(file_data))
-    source = handler.set_frame_rate(settings.AUDIO_RATE).set_channels(1).get_array_of_samples()
+    source = handler.set_frame_rate(sample_rate).set_channels(1).get_array_of_samples()
     fp_arr = np.array(source).astype(np.float32) / np.iinfo(source.typecode).max
     return torch.FloatTensor(fp_arr[np.newaxis, :]), torch.tensor([1.0])
 
@@ -82,3 +86,19 @@ async def speech_enhancement(file: UploadFile):
     enhanced = enhancer.enhance_batch(batch, rel_length)
     enhanced = enhanced.cpu().detach().numpy()
     return base64.b64encode(enhanced.tobytes())
+
+
+async def separate_audio_files(file: UploadFile = File(...)):
+    model = SepformerSeparation.from_hparams(source="speechbrain/sepformer-whamr",
+                                             savedir="pretrained_models/sepformer-whamr")
+
+    batch, rel_length = await handle_uploaded_audio_file(file, SEPFORMER_WHAMR_RATE)
+
+    sources = model.separate_batch(batch)
+    sources = sources.cpu().detach().numpy()
+    output_files = []
+    for i in range(sources.shape[2]):
+        source = sources[:,:,i]
+        output_filename = f"source_{i + 1}"
+        output_files.append((output_filename, base64.b64encode(source.tobytes())))
+    return output_files
