@@ -1,0 +1,11 @@
+[tool.black]
+line-length = 120
+target-version = ['py39']
+
+[tool.isort]
+py_version = 39
+profile = 'black'
+src_paths = ['app/api', 'client/audio_processing.py']
+length_sort = true
+import_heading_firstparty = 'Project'
+sections = 'FUTURE,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER'
