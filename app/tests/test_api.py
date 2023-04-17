@@ -9,7 +9,7 @@ from app.main import app as fa_app
 
 
 def transform_and_mul_int(value: str) -> int:
-    return reduce(operator.mul, map(int, value.split('*')))
+    return reduce(operator.mul, map(int, value.split("*")))
 
 
 @pytest.mark.anyio
@@ -23,10 +23,7 @@ async def test_ping():
 @pytest.mark.anyio
 async def test_incorrect_file_format():
     async with AsyncClient(app=fa_app, base_url="http://test") as ac:
-        response = await ac.post("/api/recognize",
-                                 files={"file": ("file.wav",
-                                                 b"",
-                                                 "text/plain")})
+        response = await ac.post("/api/recognize", files={"file": ("file.wav", b"", "text/plain")})
     assert response.status_code == 400
 
 
@@ -34,10 +31,9 @@ async def test_incorrect_file_format():
 async def test_file_too_big():
     max_file_size = transform_and_mul_int(os.getenv("MAX_FILE_SIZE"))
     async with AsyncClient(app=fa_app, base_url="http://test") as ac:
-        response = await ac.post("/api/recognize",
-                                 files={"file": ("file.wav",
-                                                 f"{'a' * (max_file_size + 1)}",
-                                                 "audio/wav")})
+        response = await ac.post(
+            "/api/recognize", files={"file": ("file.wav", f"{'a' * (max_file_size + 1)}", "audio/wav")}
+        )
     assert response.status_code == 400
 
 
@@ -51,10 +47,7 @@ async def test_recognize(monkeypatch):
 
     monkeypatch.setattr(recognize, "speech2text", mock_speech2text)
     async with AsyncClient(app=fa_app, base_url="http://test") as ac:
-        response = await ac.post("/api/recognize",
-                                 files={"file": ("file.wav",
-                                                 b"",
-                                                 "audio/wav")})
+        response = await ac.post("/api/recognize", files={"file": ("file.wav", b"", "audio/wav")})
     assert response.status_code == 200
     assert response.json() == {"text": "some text"}
 
@@ -69,9 +62,6 @@ async def test_enhancement(monkeypatch):
 
     monkeypatch.setattr(enhancement, "speech_enhancement", mock_enhancement)
     async with AsyncClient(app=fa_app, base_url="http://test") as ac:
-        response = await ac.post("/api/enhancement",
-                                 files={"file": ("file.wav",
-                                                 b"",
-                                                 "audio/wav")})
+        response = await ac.post("/api/enhancement", files={"file": ("file.wav", b"", "audio/wav")})
     assert response.status_code == 200
     assert response.json() == {"payload": "some audio data"}

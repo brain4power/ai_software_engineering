@@ -1,4 +1,3 @@
-from typing import List
 from fastapi import UploadFile
 
 from app.api.utils import separate_audio_files, APIRouter
@@ -9,8 +8,8 @@ router = APIRouter()
 
 @router.post(
     "/",
-    response_model=List[SeparateResponse],
+    response_model=SeparateResponse,
 )
-async def get_recognition(file: UploadFile):
-    sources = await separate_audio_files(file)
-    return [SeparateResponse(source=source[0], content=source[1]) for source in sources]
+async def get_separated_file(file: UploadFile):
+    output_files = await separate_audio_files(file)
+    return SeparateResponse(output_files=output_files)

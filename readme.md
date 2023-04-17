@@ -1,4 +1,4 @@
-[![Python 3.10.8](https://img.shields.io/badge/python-3.10.8-blue.svg)](https://www.python.org/downloads/release/python-3108/)
+[![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-3916/)
 ![app coverage](https://img.shields.io/badge/app_test_coverage-81%25-yellowgreen)
 
 ![ScreenShot](img/sound_logo.png)
@@ -30,6 +30,7 @@ Set necessary env variables:
 export APP_PROJECT_NAME='AI Software Engineering'
 export AUDIO_RATE=16000
 export MAX_FILE_SIZE=1*1024*1024
+export API_RECOGNITION_URI=http://0.0.0.0:8000/api/recognize
 ```
 Check flake8:
 ```shell

@@ -31,15 +31,16 @@ class Settings(BaseSettings):
 
     @validator("MAX_FILE_SIZE")
     def max_file_size_transform_and_mul_int(cls, value: str) -> int:
-        return reduce(operator.mul, map(int, value.split('*')))
+        return reduce(operator.mul, map(int, value.split("*")))
 
     BASE_DIR = Path(__file__).resolve().parent.parent
-    SYSTEM_STATIC_FOLDER = os.path.join(BASE_DIR, 'system-static/')
+    SYSTEM_STATIC_FOLDER = os.path.join(BASE_DIR, "system-static/")
 
     # speechbrain configs
-    SB_FOLDER = os.path.join(SYSTEM_STATIC_FOLDER, 'speechbrain/')
-    SB_PRETRAINED_MODELS_FOLDER = os.path.join(SB_FOLDER, 'pretrained_models/')
+    SB_FOLDER = os.path.join(SYSTEM_STATIC_FOLDER, "speechbrain/")
+    SB_PRETRAINED_MODELS_FOLDER = os.path.join(SB_FOLDER, "pretrained_models/")
     AUDIO_RATE: int
+    SEPFORMER_WHAMR_RATE: int = 8000
 
     class Config:
         case_sensitive = True

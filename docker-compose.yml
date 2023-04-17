@@ -21,6 +21,7 @@ services:
     environment:
       API_RECOGNITION_URI: "http://aise-api:9000/api/recognize/"
       API_ENHANCEMENT_URI: "http://aise-api:9000/api/enhancement/"
+      API_SEPARATION_URI: "http://aise-api:9000/api/separate/"
       AUDIO_RATE: ${AUDIO_RATE}
       MAX_FILE_SIZE: ${MAX_FILE_SIZE}
 

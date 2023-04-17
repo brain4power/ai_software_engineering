@@ -1,9 +1,7 @@
 from pydantic import BaseModel
 
 
-__all__ = [
-    "PingResponse", "RecognizeResponse", "EnhancementResponse", "SeparateResponse"
-]
+__all__ = ["PingResponse", "RecognizeResponse", "EnhancementResponse", "SeparateResponse"]
 
 
 class PingResponse(BaseModel):
@@ -19,5 +17,4 @@ class EnhancementResponse(BaseModel):
 
 
 class SeparateResponse(BaseModel):
-    source: str
-    content: str
+    output_files: list[dict]
