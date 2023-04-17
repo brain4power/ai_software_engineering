@@ -17,5 +17,4 @@ class EnhancementResponse(BaseModel):
 
 
 class SeparateResponse(BaseModel):
-    source: str
-    content: str
+    output_files: list[dict]

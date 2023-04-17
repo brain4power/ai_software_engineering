@@ -90,9 +90,12 @@ async def separate_audio_files(file: UploadFile = File(...)):
 
     sources = model.separate_batch(batch)
     sources = sources.cpu().detach().numpy()
-    output_files = []
-    for i in range(sources.shape[2]):
-        source = sources[:, :, i]
-        output_filename = f"source_{i + 1}"
-        output_files.append((output_filename, base64.b64encode(source.tobytes())))
-    return output_files
+    # fmt: off
+    return [
+        {
+            "order": i,
+            "file": base64.b64encode(sources[:, :, i].tobytes())
+        }
+        for i in range(sources.shape[2])
+    ]
+    # fmt: on
