@@ -136,18 +136,6 @@ class SpeechRecognition(AbstractOption):
 class SpeechSeparation(AbstractOption):
     name = "Speech Separation"
 
-    def separate_audio(self, file):
-        response = requests.post(
-            "http://127.0.0.5:8000/api/separate",
-            files={"file": (self.file_name, self.file_bytes, self.file_mime_type)},
-        )
-        if response.status_code == 200:
-            sources = response.json()
-            return sources
-        else:
-            st.error("Error processing audio file.")
-            return None
-
     def handle(self, *args, **kwargs):
         # start recognition via api
         api_result = self.call_api(endpoint_separation)
