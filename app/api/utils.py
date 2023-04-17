@@ -16,8 +16,6 @@ from app.core.config import settings
 
 __all__ = ["APIRouter", "speech2text", "speech_enhancement", "separate_audio_files"]
 
-SEPFORMER_WHAMR_RATE = 8000
-
 
 class APIRouter(FastAPIRouter):
     def api_route(
@@ -88,7 +86,7 @@ async def separate_audio_files(file: UploadFile = File(...)):
         savedir="pretrained_models/sepformer-whamr",
     )
 
-    batch, rel_length = await handle_uploaded_audio_file(file, SEPFORMER_WHAMR_RATE)
+    batch, rel_length = await handle_uploaded_audio_file(file, settings.SEPFORMER_WHAMR_RATE)
 
     sources = model.separate_batch(batch)
     sources = sources.cpu().detach().numpy()
