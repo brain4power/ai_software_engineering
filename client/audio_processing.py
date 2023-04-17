@@ -139,17 +139,18 @@ class SpeechSeparation(AbstractOption):
     def handle(self, *args, **kwargs):
         # start recognition via api
         api_result = self.call_api(endpoint_separation)
-        if api_result is not None:
-            for i, source in enumerate(api_result):
-                result = source["content"]
-                result = result.encode(encoding="UTF-8")
-                buff = base64.decodebytes(result)
-                sound = np.frombuffer(buff, dtype=np.float32)
-                in_memory_file = io.BytesIO()
-                wavfile.write(in_memory_file, rate=SAMPLE_RATE_SEPARATE, data=sound)
-                st.write(source["source"])
-                st.audio(in_memory_file)
-                st.markdown("---")
+        separated_file = api_result.get("output_files")
+        separated_file.sort(key=lambda x: x.get("order"))
+        for i, source in enumerate(separated_file):
+            result = source["file"]
+            result = result.encode(encoding="UTF-8")
+            buff = base64.decodebytes(result)
+            sound = np.frombuffer(buff, dtype=np.float32)
+            in_memory_file = io.BytesIO()
+            wavfile.write(in_memory_file, rate=SAMPLE_RATE_SEPARATE, data=sound)
+            st.write(f"part: {i + 1}")
+            st.audio(in_memory_file)
+            st.markdown("---")
 
 
 class SpeechEnhancement(AbstractOption):
