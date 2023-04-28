@@ -1,5 +1,5 @@
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-3916/)
-![app coverage](https://img.shields.io/badge/app_test_coverage-81%25-yellowgreen)
+![app coverage](https://img.shields.io/badge/app_test_coverage-83%25-yellowgreen)
 
 ![ScreenShot](img/sound_logo.png)
 
