@@ -4,7 +4,7 @@
 ![ScreenShot](img/sound_logo.png)
 
 ### Description
-The application processes sound files. Two functions: recognition and enhancement.
+The application processes sound files. Three functions: recognition, enhancement and separation.
 The application consists of backend and frontend parts.
 #### Frontend
 Based on [Streamlit](https://github.com/streamlit/streamlit)
